@@ -17,4 +17,8 @@ public class UIManager : MonoBehaviour
     {
 
     }
+    public void showPopupText(string text, float duration)
+    {
+
+    }
 }

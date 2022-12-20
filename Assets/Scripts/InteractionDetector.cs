@@ -9,7 +9,7 @@ public class InteractionDetector : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.E) &&interactables.Count>0)
+        if (Input.GetKeyDown(KeyCode.E) &&interactables.Count>0)
         {
             foreach(IInteractable i in interactables)
             {
@@ -20,10 +20,17 @@ public class InteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var interactable = other.GetComponent<IInteractable>();
+
+        var newInteractable = other.GetComponent<IInteractable>();
+        if (newInteractable != null)
+        {
+            interactables.Add(newInteractable);
+            newInteractable.Interact(); //remove this later once you dont want to instantly interact with anything on sight.
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        
+        var newInteractable = other.GetComponent<IInteractable>();
+        interactables.Remove(newInteractable);
     }
 }
