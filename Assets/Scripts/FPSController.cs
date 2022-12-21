@@ -6,7 +6,7 @@ public class FPSController : MonoBehaviour
 {
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
-    public float staminaDrainPerSecond= 1.0f;
+    public float staminaDrainPerSecond = 1.0f;
     public float maxStamina = 5.0f;
     public float outOfStaminaCooldownDuration = 2.0f; //how long you cant sprint if out of breath sound cue is triggered
     public Camera playerCamera;
@@ -45,7 +45,7 @@ public class FPSController : MonoBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         float movementDirectionY = moveDirection.y;
-        if (Input.GetKey(KeyCode.F) && StaminaValue>=5.0f && !antiBear.isPlaying)
+        if (Input.GetKey(KeyCode.F) && StaminaValue>= maxStamina && !antiBear.isPlaying)
         {
             antiBear.Play();
             StaminaValue = 0.0f;
@@ -84,19 +84,17 @@ public class FPSController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
-        if(isRunning && StaminaValue > 0.0f && (curSpeedX>0.0f || curSpeedY>0.0f))
+        if(isRunning && StaminaValue > 0.0f && (curSpeedX > 0.0f || curSpeedY > 0.0f))
         {
             StaminaValue -= Time.deltaTime;
-            Debug.Log("Stamina" + StaminaValue);
         }
         else if (!isRunning)
         {
-            if (StaminaValue < 5.0f)
+            if (StaminaValue < maxStamina)
             {
                 StaminaValue += Time.deltaTime * 0.5f;
             }
         }
-        //Debug.Log("Stamina" + StaminaValue);
     }
 
 }
