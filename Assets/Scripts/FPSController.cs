@@ -4,6 +4,7 @@
 
 public class FPSController : MonoBehaviour
 {
+    public static FPSController instance;
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float staminaDrainPerSecond = 1.0f;
@@ -28,12 +29,18 @@ public class FPSController : MonoBehaviour
 
     public bool IsFlashlightOn { get => _isFlashlightOn; set => _isFlashlightOn = value; }
     public bool CanMove { get => canMove; set => canMove = value; }
-    public float StaminaValue { get => _staminaValue; set => _staminaValue = value; }
+    public float StaminaValue { get => _staminaValue;
+        set
+        {
+            _staminaValue = value;
+            UIManager.instance.updateStamina(_staminaValue/ maxStamina);
+        }
+    }
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-
+        instance = this;
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
